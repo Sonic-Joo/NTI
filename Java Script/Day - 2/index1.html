@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Guess Game</title>
+  <style>
+    * {
+      text-transform: capitalize;
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: lightblue;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    label {
+      font-size: 35px;
+    }
+
+    input {
+      width: 260px;
+      height: 30px;
+      font-size: 22px;
+      padding: 10px;
+      border-radius: 12px;
+      outline: none;
+      border: none;
+      background-color: white;
+      color: black;
+    }
+
+    button {
+      font-size: 22px;
+      width: 280px;
+      height: 40px;
+      border-radius: 12px;
+      background-color: white;
+      color: black;
+      border: none;
+      cursor: pointer;
+    }
+
+    p {
+      font-size: 22px;
+      color: black;
+    }
+  </style>
+</head>
+
+<body>
+  <form>
+    <label for="inp">Guess The Number</label>
+    <input type="number" id="inp" placeholder="from 0 to 10" min="0" max="10">
+    <button id="btn">Guess</button> 
+  </form>
+
+  <div id="ele"></div> 
+
+  <script src="/main1.js"></script>
+</body>
+
+</html>

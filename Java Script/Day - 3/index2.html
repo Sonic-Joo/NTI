@@ -1,0 +1,232 @@
+<!-- Task Two -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Students CRUD</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 900px;
+      background: #444;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px 10px black, inset 0 0 2px 2px black;
+      position: relative;
+      transition: .3s;
+      user-select: none;
+    }
+
+    .container:hover {
+      scale: 1.05;
+    }
+
+    h2 {
+      font-weight: bold;
+      margin: 5px 0;
+    }
+
+    input,
+    button {
+      padding: 8px 12px;
+      margin: 5px 0;
+      border-radius: 12px;
+      border: none;
+      outline: none;
+      font-size: 18px;
+    }
+
+    input {
+      width: 90%;
+    }
+
+    .container input:last-of-type {
+      margin-bottom: 15px;
+    }
+
+    button {
+      cursor: pointer;
+      background: rgb(0, 150, 150);
+      color: #fff;
+      margin: 10px;
+      font-weight: bold;
+    }
+
+    caption {
+      margin-bottom: 10px;
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 10px;
+      border-collapse: collapse;
+    }
+
+    table,
+    th,
+    td {
+      border: 1px solid teal;
+    }
+
+    th,
+    td {
+      padding: 8px;
+      text-align: center;
+    }
+
+    .actions button {
+      margin: 2px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Students CRUD</h2>
+    <input type="text" id="name" placeholder="Name">
+    <input type="number" id="age" placeholder="Age">
+    <input type="text" id="grade" placeholder="Grade">
+    <input type="email" id="email" placeholder="Email">
+    <button onclick="createStudent()">Create Student</button>
+    <button onclick="updateStudent()">Update Student</button>
+
+    <table id="studentsTable">
+      <caption>Student Table</caption>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Grade</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    let students = [];        // Array of Objects 
+    let editIndex = null;     // link to the object will update or delete
+    showTask()                // Get data from localStorage
+
+    // To Create New Student or Object
+    function createStudent() {
+      let name = document.getElementById("name").value;
+      let age = document.getElementById("age").value;
+      let grade = document.getElementById("grade").value;
+      let email = document.getElementById("email").value;
+
+      if (name && age && grade && email) {
+        students.push({ name, age, grade, email });
+        clearInputs();
+        readTable();
+        savedData()
+      } else {
+        alert("Please fill Name, Age, Grade, And Email!");
+      }
+    }
+
+    // To display The Student
+    function readTable() {
+      let tbody = document.querySelector("#studentsTable tbody");
+      tbody.innerHTML = "";
+      students.forEach((student, index) => {
+        let row = `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${student.name}</td>
+            <td>${student.age}</td>
+            <td>${student.grade}</td>
+            <td>${student.email}</td>
+            <td class="actions">
+              <button onclick="editStudent(${index})">Edit</button>
+              <button onclick="deleteStudent(${index})">Delete</button>
+            </td>
+          </tr>
+        `;
+        tbody.innerHTML += row;
+      });
+    }
+
+    // Move The Student will update To input fields for Update him
+    function editStudent(index) {
+      let student = students[index];
+      document.getElementById("name").value = student.name;
+      document.getElementById("age").value = student.age;
+      document.getElementById("grade").value = student.grade;
+      document.getElementById("email").value = student.email;
+      editIndex = index;
+    }
+
+    // Update Student Value
+    function updateStudent() {
+      if (editIndex !== null) {
+        students[editIndex] = {
+          name: document.getElementById("name").value,
+          age: document.getElementById("age").value,
+          grade: document.getElementById("grade").value,
+          email: document.getElementById("email").value
+        };
+        clearInputs();
+        editIndex = null;
+        readTable();
+        savedData()
+      } else {
+        alert("Select a student to edit first!");
+      }
+    }
+
+    // to Delete Student
+    function deleteStudent(index) {
+      students.splice(index, 1);
+      readTable();
+      savedData()
+    }
+
+    // To Fill the input Fields
+    function clearInputs() {
+      document.getElementById("name").value = "";
+      document.getElementById("age").value = "";
+      document.getElementById("grade").value = "";
+      document.getElementById("email").value = "";
+    }
+
+    // to Save Data In LocalStorage
+    function savedData() {
+      localStorage.setItem("data", JSON.stringify(students));
+    }
+
+    // To Get Data From LocalStorage
+    function showTask() {
+      let data = localStorage.getItem("data");
+      if (data) {
+        students = JSON.parse(data);
+        readTable();
+      }
+    }
+  </script>
+</body>
+
+</html>
