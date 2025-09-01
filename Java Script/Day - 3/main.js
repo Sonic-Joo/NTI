@@ -23,17 +23,17 @@
 
 //                                         Task Four
 
-// let categories = [
-//   { category: "Fruits", products: ["Apple", "Banana", "Apple"] },
-//   { category: "Vegetables", products: ["Carrot", "Apple"] },
-//   { category: "Dairy", products: ["Milk", "Cheese", "Milk"] },
-// ];
+let categories = [
+  { category: "Fruits", products: ["Apple", "Banana", "Apple"] },
+  { category: "Vegetables", products: ["Carrot", "Apple"] },
+  { category: "Dairy", products: ["Milk", "Cheese", "Milk"] },
+];
 
-// let obj = categories
-//   .flatMap((cat) => cat.products)
-//   .reduce((acc, item) => {
-//     acc[item] = (acc[item] || 0) + 1;
-//     return acc;
-//   }, {});
+let obj = categories
+  .flatMap((cat) => cat.products)
+  .reduce((acc, item) => {
+    acc[item] = (acc[item] || 0) + 1;
+    return acc;
+  }, {});
 
-// console.log(obj);
+console.log(obj);

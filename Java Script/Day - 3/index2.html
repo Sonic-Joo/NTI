@@ -35,7 +35,7 @@
     }
 
     .container:hover {
-      scale: 1.05;
+      scale: 1.03;
     }
 
     h2 {
@@ -46,11 +46,16 @@
     input,
     button {
       padding: 8px 12px;
-      margin: 5px 0;
+      margin: 8px 0;
       border-radius: 12px;
       border: none;
       outline: none;
       font-size: 18px;
+      box-shadow: 2px 2px 5px black, -2px -2px 5px white;
+    }
+
+    ::placeholder {
+      color: black;
     }
 
     input {
@@ -67,6 +72,7 @@
       color: #fff;
       margin: 10px;
       font-weight: bold;
+      width: 200px;
     }
 
     caption {
@@ -79,6 +85,10 @@
       width: 100%;
       margin-top: 10px;
       border-collapse: collapse;
+    }
+
+    table button {
+      width: 80px;
     }
 
     table,
@@ -106,8 +116,8 @@
     <input type="number" id="age" placeholder="Age">
     <input type="text" id="grade" placeholder="Grade">
     <input type="email" id="email" placeholder="Email">
-    <button onclick="createStudent()">Create Student</button>
-    <button onclick="updateStudent()">Update Student</button>
+    <button id="createBtn" onclick="createStudent()">Create Student</button>
+    <button id="updateBtn" onclick="updateStudent()">Update Student</button>
 
     <table id="studentsTable">
       <caption>Student Table</caption>
@@ -127,9 +137,12 @@
   </div>
 
   <script>
+    let createBtn = document.getElementById("createBtn");
+    let updateBtn = document.getElementById("updateBtn");
+    updateBtn.style.display = "none"
     let students = [];        // Array of Objects 
     let editIndex = null;     // link to the object will update or delete
-    showTask()                // Get data from localStorage
+    showData()                // Get data from localStorage
 
     // To Create New Student or Object
     function createStudent() {
@@ -142,7 +155,7 @@
         students.push({ name, age, grade, email });
         clearInputs();
         readTable();
-        savedData()
+        savedData();
       } else {
         alert("Please fill Name, Age, Grade, And Email!");
       }
@@ -178,6 +191,8 @@
       document.getElementById("grade").value = student.grade;
       document.getElementById("email").value = student.email;
       editIndex = index;
+      createBtn.style.display = 'none';
+      updateBtn.style.display = 'inline-block';
     }
 
     // Update Student Value
@@ -192,7 +207,9 @@
         clearInputs();
         editIndex = null;
         readTable();
-        savedData()
+        savedData();
+        createBtn.style.display = 'inline-block';
+        updateBtn.style.display = 'none';
       } else {
         alert("Select a student to edit first!");
       }
@@ -202,7 +219,7 @@
     function deleteStudent(index) {
       students.splice(index, 1);
       readTable();
-      savedData()
+      savedData();
     }
 
     // To Fill the input Fields
@@ -219,7 +236,7 @@
     }
 
     // To Get Data From LocalStorage
-    function showTask() {
+    function showData() {
       let data = localStorage.getItem("data");
       if (data) {
         students = JSON.parse(data);

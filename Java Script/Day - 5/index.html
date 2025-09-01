@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Walk With Me</title>
+  <style>
+    :root {
+      --bg: #0f2027;
+      --bg2: #203a43;
+      --bg3: #2c5364;
+      --card: #1e2a38;
+      --accent: #4cafef;
+      --text: #f1f1f1;
+    }
+
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+      background: linear-gradient(120deg, var(--bg), var(--bg2), var(--bg3));
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .task {
+      background: var(--card);
+      padding: 30px;
+      width: 400px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      transition: 0.3s;
+      text-align: center;
+    }
+
+    .task:hover {
+      transform: scale(1.03);
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      letter-spacing: 0.5px;
+      color: var(--accent);
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    label {
+      font-size: 16px;
+      margin-bottom: 6px;
+      display: block;
+      text-align: left;
+      color: #ddd;
+    }
+
+    input {
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      font-size: 15px;
+      width: 100%;
+      background: #2b3b4f;
+      color: white;
+      box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.6);
+      transition: 0.2s;
+    }
+
+    input:focus {
+      background: #344a65;
+      border: 1px solid var(--accent);
+    }
+
+    .btn {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+
+    button,
+    input[type="reset"] {
+      width: 100px;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    button:hover,
+    input[type="reset"] {
+      background: #3aa0e0;
+    }
+
+    .output {
+      margin-top: 20px;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .output p{
+      font-size: 20px;
+      text-align: center;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="task">
+    <h2>How Are You Today</h2>
+    <form>
+      <div>
+        <label for="step">Your Steps Today</label>
+        <input type="number" id="step">
+      </div>
+      <div>
+        <label for="distance">Your Distance Today (km)</label>
+        <input type="number" id="distance">
+      </div>
+      <div>
+        <label for="calories">Your Calories Today</label>
+        <input type="number" id="calories">
+      </div>
+
+      <div class="btn">
+        <button id="saved" type="button">Save</button>
+        <input type="reset" id="reset">
+      </div>
+    </form>
+    <div class="output"></div>
+  </div>
+
+  <script>
+    const saveBtn = document.getElementById("saved");
+    const output = document.querySelector(".output");
+    const reset = document.getElementById("reset");
+    output.style.display = "none"
+
+    let newStet = 0, newDistance = 0, newCalories = 0
+
+    saveBtn.addEventListener("click", () => {
+      const step = document.getElementById("step");
+      const distance = document.getElementById("distance");
+      const calories = document.getElementById("calories");
+
+      newStet += +step.value
+      newDistance += +distance.value
+      newCalories += +calories.value
+
+      if (step && distance && calories) {
+        output.style.display = "block"
+        output.innerHTML = `
+        <p>Steps: ${newStet}</p>
+        <p>Distance: ${newDistance} km</p>
+        <p>Calories: ${newCalories}</p>
+      `;
+        step.value = "";
+        distance.value = "";
+        calories.value = "";
+      } else {
+        alert("Check Your All Values")
+      }
+    });
+
+    reset.addEventListener("click", function () {
+      output.style.display = "none"
+    })
+
+  </script>
+</body>
+
+</html>

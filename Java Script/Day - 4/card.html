@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="eg">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shopping Cart</title>
+  <style>
+    :root {
+      --muted: #9fb3c8;
+      --text: #e9f1f7;
+      --accent: #38bdf8;
+      --danger: #f87171;
+      --success: #4ade80;
+    }
+
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+      background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .app {
+      margin: 20px;
+      width: min(1300px, 100%);
+      display: grid;
+      gap: 24px;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .card {
+      background: rgba(21, 43, 57, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 20px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+    }
+
+    .card h2 {
+      padding: 18px 20px;
+      background: linear-gradient(0deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+      font-size: 22px;
+      letter-spacing: .5px;
+      text-align: center;
+    }
+
+    .section {
+      padding: 20px 22px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    .prod {
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      transition: all 0.2s ease;
+    }
+
+    .prod:hover {
+      border-color: var(--accent);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    }
+
+    .prod h3 {
+      font-size: 18px;
+    }
+
+    .muted {
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    input[type="number"],
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      outline: none;
+      font-size: 14px;
+    }
+
+    button {
+      padding: 12px 16px;
+      border: none;
+      border-radius: 12px;
+      background: var(--accent);
+      color: #06202e;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .15s ease;
+      font-size: 14px;
+    }
+
+    button:hover {
+      scale: 1.1;
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.16);
+      color: var(--text);
+    }
+
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .totals {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 16px;
+    }
+
+    .totals .line {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .line strong {
+      font-weight: 800;
+    }
+
+    .divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.12);
+      margin: 8px 0;
+    }
+
+    .danger {
+      color: var(--danger);
+    }
+
+    .success {
+      color: var(--success);
+    }
+
+    .list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .item {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border: 1px dashed rgba(255, 255, 255, 0.14);
+      border-radius: 12px;
+      background-color: rgba(255, 255, 255, 0.04);
+      transition: background-color .2s ease;
+    }
+
+    .item:hover {
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .center {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .search {
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 20px;
+      letter-spacing: .5px;
+      background: linear-gradient(0deg, rgba(255, 255, 255, 0.05),
+          rgba(255, 255, 255, 0.02));
+    }
+
+    .search h4 {
+      width: 250px;
+      font-size: 22px;
+      text-align: center;
+    }
+
+    .searchBtn {
+      display: flex;
+      gap: 40px;
+    }
+
+    @media (max-width: 960px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <div class="card">
+      <h2>Your Cart</h2>
+      <div class="section stack">
+        <div id="messages" class="muted"></div>
+        <div id="cart" class="list">
+          <div class="center muted"></div>
+        </div>
+        <div id="summary" class="totals">
+          <div class="line"><span>Price</span><strong>0</strong></div>
+          <div class="line"><span>Discount </span><strong>0</strong></div>
+          <div class="line"><span>Tax (14%)</span><strong>0</strong></div>
+          <div class="line"><span>Delivery</span><strong>0</strong></div>
+          <div class="divider"></div>
+          <div class="line" style="font-size:19px"><span>Total Price</span><strong>0</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Our Products</h2>
+      <div class="section">
+        <div id="products" class="products"></div>
+      </div>
+      <div class="search">
+        <h4>Search With Id</h4>
+        <div class="searchBtn">
+          <button id="searchBtn">Search</button>
+          <input type="number" id="searchId" min="0" step="1">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+
+</html>
